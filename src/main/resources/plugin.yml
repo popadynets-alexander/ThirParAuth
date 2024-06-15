@@ -1,0 +1,8 @@
+name: ThirParAuth
+version: 5.0
+authors:
+- LikeSauR
+- HiScythe
+
+main: com.likeitsmp.thirparauth.ThirparauthPlugin
+api-version: 1.20
