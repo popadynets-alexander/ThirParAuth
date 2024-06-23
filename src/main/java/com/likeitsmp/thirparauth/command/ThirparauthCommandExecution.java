@@ -41,15 +41,62 @@ public final class ThirparauthCommandExecution extends CommandExecution
         {
             executeConsoleSubcommands();
         }
+        else if (arg(0).equals("help"))
+        {
+            sendHelp();
+        }
         else
         {
-            sender.sendMessage("§4You must be either a player or the console to use this command");
+            sender.sendMessage("§4You must be either a player or the console to use this command.");
         }
+    }
+
+    private void sendHelp()
+    {
+        throw new UnsupportedOperationException("Unimplemented method 'sendHelp'");
     }
 
     private void executePlayerSubcommands()
     {
-        throw new UnsupportedOperationException("Unimplemented method 'executePlayerSubcommands'");
+        String subcommand = arg(0);
+        switch (subcommand)
+        {
+            case "help":
+                sendHelp();
+                break;
+
+            case "set-password":
+                break;
+
+            case "enable":
+                break;
+
+            case "disable":
+                break;
+
+            case "terminate":
+                break;
+
+            case "begin-trust-ip":
+                break;
+
+            case "begin-distrust-ip":
+                break;
+
+            case "forget-ip":
+                break;
+
+            case "inspect-ips":
+                break;
+
+            case "": // TODO handle error throw on console-specific subcommands
+                break;
+            
+            default:
+                sender.sendMessage("§4Unknown subcommand '§c"+subcommand+"§4'");
+                sender.sendMessage("§6Try §e/"+alias+" help");
+                break;
+        }
     }
     
     private void executeConsoleSubcommands()
