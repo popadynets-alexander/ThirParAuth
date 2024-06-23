@@ -4,7 +4,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-public final class ThirparauthCommandExecution
+import com.likeitsmp.commands.CommandExecution;
+
+public final class ThirparauthCommandExecution extends CommandExecution
 {
     private static final boolean DO_NOT_SEND_COMMAND_USAGE_BACK = true;
 
@@ -19,8 +21,8 @@ public final class ThirparauthCommandExecution
         );
     }
 
-    private ThirparauthCommandExecution(CommandSender sender, Command command, String alias, String[] args)
+    private ThirparauthCommandExecution(CommandSender sender, Command command, String alias, String[] rawArgs)
     {
-        throw new UnsupportedOperationException("Not Implemented ThirparauthCommandExecution");
+        super(sender, command, alias, rawArgs);
     }
 }
