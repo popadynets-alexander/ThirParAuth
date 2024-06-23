@@ -41,13 +41,9 @@ public final class ThirparauthCommandExecution extends CommandExecution
         {
             executeConsoleSubcommands();
         }
-        else if (arg(0).equals("help"))
-        {
-            sendHelp();
-        }
         else
         {
-            sender.sendMessage("§4You must be either a player or the console to use this command.");
+            executeSubcommandsForUnknownSenderType();
         }
     }
 
@@ -89,7 +85,11 @@ public final class ThirparauthCommandExecution extends CommandExecution
             case "inspect-ips":
                 break;
 
-            case "": // TODO handle error throw on console-specific subcommands
+            case "lockdown":
+            case "lockdown-end":
+            case "generate-password-for":
+                sender.sendMessage("§4You must be the console to use these commands.");
+                sender.sendMessage("§6Try §e/"+alias+" help");
                 break;
             
             default:
@@ -98,9 +98,76 @@ public final class ThirparauthCommandExecution extends CommandExecution
                 break;
         }
     }
-    
+
     private void executeConsoleSubcommands()
     {
-        throw new UnsupportedOperationException("Unimplemented method 'executeConsoleSubcommands'");
+        String subcommand = arg(0);
+        switch (subcommand)
+        {
+            case "help":
+                sendHelp();
+                break;
+
+            case "lockdown":
+                break;
+
+            case "lockdown-end":
+                break;
+
+            case "generate-password-for":
+                break;
+
+            case "set-password":
+            case "enable":
+            case "disable":
+            case "terminate":
+            case "begin-trust-ip":
+            case "begin-distrust-ip":
+            case "forget-ip":
+            case "inspect-ips":
+                sender.sendMessage("§4You must be a player to use this subcommand.");
+                sender.sendMessage("§6Try §e/"+alias+" help");
+                break;
+
+            default:
+                sender.sendMessage("§4Unknown subcommand '§c"+subcommand+"§4'");
+                sender.sendMessage("§6Try §e/"+alias+" help");
+                break;
+        }
+    }
+
+    private void executeSubcommandsForUnknownSenderType()
+    {
+        String subcommand = arg(0);
+        switch (subcommand)
+        {
+            case "help":
+                sendHelp();
+                break;
+
+            case "set-password":
+            case "enable":
+            case "disable":
+            case "terminate":
+            case "begin-trust-ip":
+            case "begin-distrust-ip":
+            case "forget-ip":
+            case "inspect-ips":
+                sender.sendMessage("§4You must be a player to use this subcommand.");
+                sender.sendMessage("§6Try §e/"+alias+" help");
+                break;
+
+            case "lockdown":
+            case "lockdown-end":
+            case "generate-password-for":
+                sender.sendMessage("§4You must be the console to use these commands.");
+                sender.sendMessage("§6Try §e/"+alias+" help");
+                break;
+
+            default:
+                sender.sendMessage("§4Unknown subcommand '§c"+subcommand+"§4'");
+                sender.sendMessage("§6Try §e/"+alias+" help");
+                break;
+        }
     }
 }
