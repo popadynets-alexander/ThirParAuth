@@ -49,7 +49,16 @@ public final class ThirparauthCommandExecution extends CommandExecution
 
     private void sendHelp()
     {
-        throw new UnsupportedOperationException("Unimplemented method 'sendHelp'");
+        sender.sendMessage("§e----------- §fHelp: /"+alias+" §e-------------------");
+
+        if (command.getName().equals(alias) == false)
+        {
+            sender.sendMessage("§6Alias for: §f/"+command.getName());
+        }
+
+        sender.sendMessage("§6Description: §r"+command.getDescription());
+        sender.sendMessage("§6Usage: §r"+command.getUsage());
+        sender.sendMessage("§6Aliases: §r"+String.join(", ", command.getAliases()));
     }
 
     private void executePlayerSubcommands()
