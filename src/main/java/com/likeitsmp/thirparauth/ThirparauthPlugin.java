@@ -11,6 +11,6 @@ public class ThirparauthPlugin extends JavaPlugin
     public void onEnable()
     {
         UserDatabase userDatabase = new UserDatabase(this);
-        ThirparauthCommandExecution.initExecutor(userDatabase);
+        ThirparauthCommandExecution.initExecutor(this, userDatabase);
     }
 }
