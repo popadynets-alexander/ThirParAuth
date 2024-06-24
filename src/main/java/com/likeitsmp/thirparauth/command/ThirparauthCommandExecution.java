@@ -5,27 +5,36 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.BookMeta;
 
+import com.likeitsmp.commands.Args;
 import com.likeitsmp.commands.CommandExecution;
+import com.likeitsmp.console.Console;
+import com.likeitsmp.thirparauth.data.UserData;
+import com.likeitsmp.thirparauth.data.UserDatabase;
+import com.likeitsmp.thirparauth.processes.TextInputProcess;
 
 public final class ThirparauthCommandExecution extends CommandExecution
 {
     private static final boolean DO_NOT_SEND_COMMAND_USAGE_BACK = true;
 
-    public static void initExecutor()
+    public static void initExecutor(UserDatabase userDatabase)
     {
         Bukkit.getPluginCommand("3pa").setExecutor(
             (sender, command, alias, args) ->
             {
-                new ThirparauthCommandExecution(sender, command, alias, args);
+                new ThirparauthCommandExecution(sender, command, alias, args, userDatabase);
                 return DO_NOT_SEND_COMMAND_USAGE_BACK;
             }
         );
     }
 
-    private ThirparauthCommandExecution(CommandSender sender, Command command, String alias, String[] rawArgs)
+    private final UserDatabase _userDatabase;
+
+    private ThirparauthCommandExecution(CommandSender sender, Command command, String alias, String[] rawArgs, UserDatabase userDatabase)
     {
         super(sender, command, alias, rawArgs);
+        _userDatabase = userDatabase;
 
         if (argsCount() == 0)
         {
@@ -71,6 +80,7 @@ public final class ThirparauthCommandExecution extends CommandExecution
                 break;
 
             case "set-password":
+                playerSetPassword();
                 break;
 
             case "enable":
@@ -106,6 +116,38 @@ public final class ThirparauthCommandExecution extends CommandExecution
                 sender.sendMessage("§6Try §e/"+alias+" help");
                 break;
         }
+    }
+
+    private void playerSetPassword()
+    {
+        new TextInputProcess((Player)sender)
+        {
+            @Override
+            protected void onSubmitted(BookMeta book)
+            {
+                try
+                {
+                    String enteredPassword = Args.mergedPagesOf(book);
+                    UserData senderData = _userDatabase.dataOf(player);
+                    if (senderData == null)
+                    {
+                        _userDatabase.register(player, enteredPassword);
+                        sender.sendMessage("§2You have successfully set up a 3PA");
+                    }
+                    else
+                    {
+                        senderData.setPassword(enteredPassword);
+                        sender.sendMessage("§2You have successfully changed Your password");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    Console.error("An error occurred while "+sender.getName()+" submitted a password after /3pa set-password");
+                    Console.error("thrown : "+exception);
+                }
+                stop();
+            }
+        };
     }
 
     private void executeConsoleSubcommands()
