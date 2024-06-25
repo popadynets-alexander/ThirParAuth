@@ -1,5 +1,6 @@
 package com.likeitsmp.thirparauth.processes;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -8,6 +9,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.Event.Result;
@@ -27,6 +29,7 @@ public abstract class TextInputProcess implements Listener
     protected final Plugin plugin;
     private boolean _isActive;
     private final PlayerDataStash _playerDataStash;
+    private final List<AsyncPlayerChatEvent> _chatRecording;
 
     public TextInputProcess(Player player, Plugin plugin)
     {
@@ -35,6 +38,8 @@ public abstract class TextInputProcess implements Listener
 
         _playerDataStash = new PlayerDataStash(player);
         putPlayerAwayFromWorld();
+
+        _chatRecording = new LinkedList<>();
 
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
@@ -87,9 +92,25 @@ public abstract class TextInputProcess implements Listener
         if (_isActive)
         {
             _isActive = false;
-            HandlerList.unregisterAll(this);
-            _playerDataStash.reapply();
+            onStop();
         }
+    }
+
+    private void onStop()
+    {
+        HandlerList.unregisterAll(this);
+
+        _playerDataStash.reapply();
+
+        _chatRecording.forEach(message ->
+        {
+            String template = message.getFormat();
+            String sender = message.getPlayer().getDisplayName();
+            String contents = message.getMessage();
+            String wholeMessage = template.formatted(sender, contents);
+            player.sendMessage(wholeMessage);
+        });
+        _chatRecording.clear();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -168,7 +189,15 @@ public abstract class TextInputProcess implements Listener
     @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(AsyncPlayerChatEvent event)
     {
-        // TODO
+        if (event.getPlayer() == player)
+        {
+            event.setCancelled(true);
+            player.sendMessage("§4You may not send messages now");
+        }
+        else if (event.getRecipients().remove(player))
+        {
+            _chatRecording.add(event);
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
