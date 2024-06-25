@@ -92,7 +92,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerEditBookEvent event)
     {
         boolean isNotCancelled = event.isCancelled() == false;
@@ -103,7 +103,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerInteractEvent event)
     {
         if (event.getPlayer() != player ||
@@ -119,7 +119,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PluginDisableEvent event)
     {
         if (event.getPlugin() == plugin)
@@ -128,7 +128,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerKickEvent event)
     {
         boolean isNotCancelled = event.isCancelled() == false;
@@ -139,7 +139,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerQuitEvent event)
     {
         boolean theRightPlayer = event.getPlayer() == player;
@@ -149,7 +149,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerMoveEvent event)
     {
         boolean isNotCancelled = event.isCancelled() == false;
@@ -165,13 +165,13 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(AsyncPlayerChatEvent event)
     {
         // TODO
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerVelocityEvent event)
     {
         boolean isNotCancelled = event.isCancelled() == false;
@@ -182,7 +182,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerAnimationEvent event)
     {
         handleAbstract(event);
@@ -199,145 +199,145 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerBedEnterEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerBedLeaveEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerBucketEntityEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerBucketEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerDropItemEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerFishEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerGameModeChangeEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerHarvestBlockEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerInteractEntityEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerItemConsumeEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerItemDamageEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerItemHeldEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerItemMendEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerRecipeDiscoverEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerShearEntityEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerSignOpenEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerSpawnChangeEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerStatisticIncrementEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerSwapHandItemsEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerTakeLecternBookEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerToggleFlightEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerToggleSneakEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PlayerToggleSprintEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(AreaEffectCloudApplyEvent event)
     {
         boolean isNotCancelled = event.isCancelled() == false;
@@ -347,7 +347,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PortalCreateEvent event)
     {
         if (event.isCancelled() == false && event.getEntity() == player)
@@ -356,7 +356,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityDamageEvent event)
     {
         if (event.isCancelled())
@@ -371,7 +371,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityDismountEvent event)
     {
         if (event.isCancelled())
@@ -386,7 +386,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(PigZombieAngerEvent event)
     {
         if (event.isCancelled())
@@ -400,7 +400,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(ProjectileHitEvent event)
     {
         if (event.isCancelled())
@@ -414,7 +414,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(SheepDyeWoolEvent event)
     {
         if (event.isCancelled())
@@ -428,7 +428,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityMountEvent event)
     {
         if (event.isCancelled())
@@ -443,7 +443,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityPlaceEvent event)
     {
         if (event.isCancelled() == false && event.getPlayer() == player)
@@ -452,7 +452,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityTargetEvent event)
     {
         if (event.isCancelled())
@@ -467,7 +467,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityToggleGlideEvent event)
     {
         if (event.isCancelled())
@@ -481,7 +481,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityToggleSwimEvent event)
     {
         if (event.isCancelled())
@@ -495,7 +495,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityTameEvent event)
     {
         if (event.isCancelled())
@@ -510,7 +510,7 @@ public abstract class TextInputProcess implements Listener
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(ArrowBodyCountChangeEvent event)
     {
         handleAbstract(event);
@@ -528,103 +528,103 @@ public abstract class TextInputProcess implements Listener
     }
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityAirChangeEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityChangeBlockEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityCombustEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityDropItemEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityEnterBlockEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityEnterLoveModeEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityExhaustionEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityExplodeEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityInteractEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityKnockbackEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityPickupItemEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityPotionEffectEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityShootBowEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntitySpellCastEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(EntityTransformEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(ExplosionPrimeEvent event)
     {
         handleAbstract(event);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     private void handle(FoodLevelChangeEvent event)
     {
         handleAbstract(event); 
