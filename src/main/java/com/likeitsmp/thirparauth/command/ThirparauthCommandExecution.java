@@ -1,22 +1,15 @@
 package com.likeitsmp.thirparauth.command;
 
-import java.util.List;
-
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerEditBookEvent;
-import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.Plugin;
 
-import com.likeitsmp.commands.Args;
 import com.likeitsmp.commands.CommandExecution;
-import com.likeitsmp.console.Console;
-import com.likeitsmp.thirparauth.data.UserData;
 import com.likeitsmp.thirparauth.data.UserDatabase;
-import com.likeitsmp.thirparauth.processes.TextInputProcess;
+import com.likeitsmp.thirparauth.processes.PlayerSettingPasswordProcess;
 
 public final class ThirparauthCommandExecution extends CommandExecution
 {
@@ -86,7 +79,7 @@ public final class ThirparauthCommandExecution extends CommandExecution
                 break;
 
             case "set-password":
-                new PlayerSettingPasswordProcess();
+                new PlayerSettingPasswordProcess((Player)sender, _plugin, _userDatabase);
                 break;
 
             case "enable":
@@ -121,53 +114,6 @@ public final class ThirparauthCommandExecution extends CommandExecution
                 sender.sendMessage("§4Unknown subcommand '§c"+subcommand+"§4'");
                 sender.sendMessage("§6Try §e/"+alias+" help");
                 break;
-        }
-    }
-
-    private final class PlayerSettingPasswordProcess extends TextInputProcess
-    {
-        public PlayerSettingPasswordProcess()
-        {
-            super((Player)sender, _plugin);
-        }
-
-        @Override
-        protected void setupInputField(BookMeta book)
-        {
-            book.setDisplayName("Your New Password");
-            book.setLore(List.of(
-                "write your new password in the book",
-                "and then hit \"Done\" to submit it"
-            ));
-        }
-
-        @Override
-        protected void onSubmittedTextInput(PlayerEditBookEvent event)
-        {
-            try
-            {
-                BookMeta submittedBook = event.getNewBookMeta();
-                String enteredPassword = Args.mergedPagesOf(submittedBook);
-                UserData senderData = _userDatabase.dataOf(player);
-                if (senderData == null)
-                {
-                    _userDatabase.register(player, enteredPassword);
-                    sender.sendMessage("§2You have successfully set up a 3PA");
-                }
-                else
-                {
-                    senderData.setPassword(enteredPassword);
-                    sender.sendMessage("§2You have successfully changed Your password");
-                }
-            }
-            catch (Exception exception)
-            {
-                Console.error("An unhandled error occurred while "+sender.getName()+" submitted a password after /3pa set-password");
-                Console.error("thrown : "+exception);
-                sender.sendMessage("An unhandled error occurred : "+exception);
-            }
-
-            stop();
         }
     }
 
