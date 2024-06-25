@@ -6,14 +6,20 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Cancellable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerEditBookEvent;
+import org.bukkit.event.Event.Result;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.*;
+import org.bukkit.event.player.*;
 import org.bukkit.event.server.PluginDisableEvent;
+import org.bukkit.event.world.PortalCreateEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 
 public abstract class TextInputProcess implements Listener
 {
@@ -89,9 +95,27 @@ public abstract class TextInputProcess implements Listener
     @EventHandler
     private void handle(PlayerEditBookEvent event)
     {
-        if (event.getPlayer() == player)
+        boolean isNotCancelled = event.isCancelled() == false;
+        boolean theRightPlayer = event.getPlayer() == player;
+        if (isNotCancelled && theRightPlayer)
         {
             onSubmittedTextInput(event);
+        }
+    }
+
+    @EventHandler
+    private void handle(PlayerInteractEvent event)
+    {
+        if (event.getPlayer() != player ||
+            event.useItemInHand() == Result.DENY)
+        {
+            return;
+        }
+
+        if (event.getAction() != Action.LEFT_CLICK_AIR ||
+            event.getItem().getType() == Material.WRITABLE_BOOK)
+        {
+            event.setCancelled(true);
         }
     }
 
@@ -102,5 +126,507 @@ public abstract class TextInputProcess implements Listener
         {
             stop();
         }
+    }
+
+    @EventHandler
+    private void handle(PlayerKickEvent event)
+    {
+        boolean isNotCancelled = event.isCancelled() == false;
+        boolean theRightPlayer = event.getPlayer() == player;
+        if (isNotCancelled && theRightPlayer)
+        {
+            stop();
+        }
+    }
+
+    @EventHandler
+    private void handle(PlayerQuitEvent event)
+    {
+        boolean theRightPlayer = event.getPlayer() == player;
+        if (theRightPlayer)
+        {
+            stop();
+        }
+    }
+
+    @EventHandler
+    private void handle(PlayerMoveEvent event)
+    {
+        boolean isNotCancelled = event.isCancelled() == false;
+        boolean theRightPlayer = event.getPlayer() == player;
+        if (isNotCancelled && theRightPlayer)
+        {
+            Location a = event.getFrom();
+            Location b = event.getTo();
+            boolean deltaX = a.getX() != b.getX();
+            boolean deltaY = a.getY() != b.getY();
+            boolean deltaZ = a.getZ() != b.getZ();
+            event.setCancelled(deltaX | deltaY | deltaZ);
+        }
+    }
+
+    @EventHandler
+    private void handle(AsyncPlayerChatEvent event)
+    {
+        // TODO
+    }
+
+    @EventHandler
+    private void handle(PlayerVelocityEvent event)
+    {
+        boolean isNotCancelled = event.isCancelled() == false;
+        boolean theRightPlayer = event.getPlayer() == player;
+        if (isNotCancelled && theRightPlayer)
+        {
+            event.setVelocity(new Vector(0d, 0d, 0d));
+        }
+    }
+
+    @EventHandler
+    private void handle(PlayerAnimationEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    <CancellablePlayerEvent extends PlayerEvent & Cancellable>
+    void handleAbstract(CancellablePlayerEvent event)
+    {
+        boolean isNotCancelled = event.isCancelled() == false;
+        boolean theRightPlayer = event.getPlayer() == player;
+        if (isNotCancelled && theRightPlayer)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(PlayerBedEnterEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerBedLeaveEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerBucketEntityEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerBucketEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerDropItemEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerFishEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerGameModeChangeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerHarvestBlockEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerInteractEntityEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerItemConsumeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerItemDamageEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerItemHeldEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerItemMendEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerRecipeDiscoverEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerShearEntityEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerSignOpenEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerSpawnChangeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerStatisticIncrementEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerSwapHandItemsEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerTakeLecternBookEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerToggleFlightEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerToggleSneakEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(PlayerToggleSprintEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(AreaEffectCloudApplyEvent event)
+    {
+        boolean isNotCancelled = event.isCancelled() == false;
+        if (isNotCancelled)
+        {
+            event.getAffectedEntities().remove(player);
+        }
+    }
+
+    @EventHandler
+    private void handle(PortalCreateEvent event)
+    {
+        if (event.isCancelled() == false && event.getEntity() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityDamageEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getDamageSource() == player ||
+            event.getEntity() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityDismountEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getDismounted() == player ||
+            event.getEntity() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(PigZombieAngerEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getTarget() == player)
+        {
+            event.setNewAnger(0);
+        }
+    }
+
+    @EventHandler
+    private void handle(ProjectileHitEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getHitEntity() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(SheepDyeWoolEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getPlayer() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityMountEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getEntity() == event ||
+            event.getMount() == event)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityPlaceEvent event)
+    {
+        if (event.isCancelled() == false && event.getPlayer() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityTargetEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getTarget() == player ||
+            event.getEntity() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityToggleGlideEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getEntity() == player)
+        {
+            event.setCancelled(event.isGliding());
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityToggleSwimEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getEntity() == player)
+        {
+            event.setCancelled(event.isSwimming());
+        }
+    }
+
+    @EventHandler
+    private void handle(EntityTameEvent event)
+    {
+        if (event.isCancelled())
+        {
+            return;
+        }
+
+        if (event.getOwner() == player ||
+            event.getEntity() == player)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    private void handle(ArrowBodyCountChangeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    <CancellableEntityEvent extends EntityEvent & Cancellable>
+    void handleAbstract(CancellableEntityEvent event)
+    {
+        boolean isNotCancelled = event.isCancelled() == false;
+        boolean theRightEntity = event.getEntity() == player;
+        if (isNotCancelled && theRightEntity)
+        {
+            event.setCancelled(true);
+        }
+    }
+
+
+    @EventHandler
+    private void handle(EntityAirChangeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityChangeBlockEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityCombustEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityDropItemEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityEnterBlockEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityEnterLoveModeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityExhaustionEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityExplodeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityInteractEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityKnockbackEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityPickupItemEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityPotionEffectEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityShootBowEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntitySpellCastEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(EntityTransformEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(ExplosionPrimeEvent event)
+    {
+        handleAbstract(event);
+    }
+
+    @EventHandler
+    private void handle(FoodLevelChangeEvent event)
+    {
+        handleAbstract(event); 
     }
 }
