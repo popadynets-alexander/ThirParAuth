@@ -6,3 +6,21 @@ authors:
 
 main: com.likeitsmp.thirparauth.ThirparauthPlugin
 api-version: 1.20
+
+permissions:
+    thirparauth.user:
+        default: true
+
+commands:
+    3pa:
+        aliases:
+        - "3PA"
+        - "thirparauth"
+        - "threepah"
+        permission: "thirparauth.user"
+        description: "
+            §1TODO: Description
+            "
+        usage: "
+            §1TODO: Usage
+            "
