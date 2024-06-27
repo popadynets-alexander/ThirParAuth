@@ -17,4 +17,9 @@ public final class UserData implements Serializable
         Objects.requireNonNull(password);
         _password = password;
     }
+
+    public boolean verifies(String password)
+    {
+        return _password.equals(password);
+    }
 }
