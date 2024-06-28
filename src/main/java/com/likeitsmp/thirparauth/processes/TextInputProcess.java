@@ -67,6 +67,13 @@ public abstract class TextInputProcess extends PlayerAutoListener
         }
 
         @Override
+        protected void restorePlayerData()
+        {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, super::restorePlayerData);
+            Console.warning("DELAYED RESTORATION OF PLAYER DATA");
+        }
+
+        @Override
         protected void substituteInventory()
         {
             super.substituteInventory();
