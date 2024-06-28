@@ -1,4 +1,4 @@
-package com.likeitsmp.thirparauth.data_stashes;
+package com.likeitsmp.thirparauth.data;
 
 import java.util.Collection;
 

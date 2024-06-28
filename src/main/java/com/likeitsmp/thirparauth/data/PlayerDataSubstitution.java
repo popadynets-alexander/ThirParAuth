@@ -1,4 +1,4 @@
-package com.likeitsmp.thirparauth.data_stashes;
+package com.likeitsmp.thirparauth.data;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +16,7 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
@@ -28,6 +29,7 @@ import com.likeitsmp.console.Console;
 
 public class PlayerDataSubstitution
 {
+    //#region fields
     protected final int DEFAULT_FOOD_LEVEL = 20;
     protected final int DEFAULT_SATURATION = 20;
     protected final int TICKS_PER_SECOND = 20; // it's just a coincidence
@@ -114,6 +116,7 @@ public class PlayerDataSubstitution
     private double _healthScale;
     private boolean _healthIsScaled;
     private double _lastDamage;
+    //#endregion
 
     public PlayerDataSubstitution(Player player, Plugin plugin)
     {
@@ -122,8 +125,9 @@ public class PlayerDataSubstitution
 
         storePlayerData();
         substituteLoadedPlayerData();
+        finishInit();
+
         _isActive = true;
-        afterInit();
     }
 
     private void storePlayerData()
@@ -745,25 +749,19 @@ public class PlayerDataSubstitution
     }
     //#endregion
 
-    protected void afterInit() { }
+    protected void finishInit() { }
 
-    public final void stop()
+    public final void revert()
     {
         if (_isActive)
         {
             _isActive = false;
-            onStop();
+            restorePlayerData();
         }
     }
 
-    private final void onStop()
-    {
-        restorePlayerData();
-        afterRestoration();
-    }
-    
     //#region restoration
-    private void restorePlayerData()
+    protected void restorePlayerData()
     {
         Console.debugRun(
             () -> Console.warning("BEGAN RESTORING PLAYER'S DATA"),
@@ -1158,12 +1156,16 @@ public class PlayerDataSubstitution
 
     protected void restoreInventory(ItemStack[] inventoryContents)
     {
-        player.getInventory().setContents(inventoryContents);
+        Inventory inventory = player.getInventory();
+        inventory.clear();
+        inventory.setContents(inventoryContents);
     }
 
     protected void restoreEnderChest(ItemStack[] enderChestContents)
     {
-        player.getEnderChest().setContents(enderChestContents);
+        Inventory inventory = player.getEnderChest();
+        inventory.clear();
+        inventory.setContents(enderChestContents);
     }
 
     protected void restoreSpectatorTarget(Entity spectatorTarget)
