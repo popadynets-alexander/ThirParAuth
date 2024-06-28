@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -17,13 +18,12 @@ public final class ThirparauthCommandExecution extends CommandExecution
 
     public static void initExecutor(Plugin plugin, UserDatabase userDatabase)
     {
-        Bukkit.getPluginCommand("3pa").setExecutor(
-            (sender, command, alias, args) ->
-            {
-                new ThirparauthCommandExecution(sender, command, alias, args, plugin, userDatabase);
-                return DO_NOT_SEND_COMMAND_USAGE_BACK;
-            }
-        );
+        PluginCommand command = Bukkit.getPluginCommand("3pa");
+        command.setExecutor((sender, calledCommand, alias, args) ->
+        {
+            new ThirparauthCommandExecution(sender, calledCommand, alias, args, plugin, userDatabase);
+            return DO_NOT_SEND_COMMAND_USAGE_BACK;
+        });
     }
 
     private final Plugin _plugin;

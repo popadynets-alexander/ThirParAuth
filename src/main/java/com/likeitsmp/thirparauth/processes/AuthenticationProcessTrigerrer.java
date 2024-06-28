@@ -1,26 +1,22 @@
 package com.likeitsmp.thirparauth.processes;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
+import com.likeitsmp.events.AutoListener;
 import com.likeitsmp.thirparauth.data.UserData;
 import com.likeitsmp.thirparauth.data.UserDatabase;
 
-public final class AuthenticationProcessTrigerrer implements Listener
+public final class AuthenticationProcessTrigerrer extends AutoListener
 {
-    private final Plugin _plugin;
     private final UserDatabase _userDatabase;
 
     public AuthenticationProcessTrigerrer(Plugin plugin, UserDatabase userDatabase)
     {
-        _plugin = plugin;
+        super(plugin);
         _userDatabase = userDatabase;
-
-        Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
@@ -33,6 +29,6 @@ public final class AuthenticationProcessTrigerrer implements Listener
             return;
         }
 
-        new AuthenticationProcess(player, playerData, _plugin);
+        new AuthenticationProcess(player, playerData, plugin);
     }
 }

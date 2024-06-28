@@ -55,7 +55,7 @@ public final class PlayerSettingPasswordProcess extends TextInputProcess
         {
             Console.error("An unhandled error occurred while "+player.getName()+" submitted a password after /3pa set-password");
             Console.error("thrown : "+exception);
-            player.sendMessage("An unhandled error occurred : "+exception);
+            player.sendMessage("§4An unhandled error occurred : "+exception);
         }
 
         stop();

@@ -6,6 +6,7 @@ import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.plugin.Plugin;
 
 import com.likeitsmp.commands.Args;
+import com.likeitsmp.console.Console;
 import com.likeitsmp.thirparauth.data.UserData;
 
 public class AuthenticationProcess extends TextInputProcess
@@ -16,6 +17,7 @@ public class AuthenticationProcess extends TextInputProcess
     {
         super(player, plugin);
         _playerData = playerData;
+        Console.warning("BEGAN AUTHENTICATION PROCESS");
     }
 
     @Override
