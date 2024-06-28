@@ -1,5 +1,7 @@
 package com.likeitsmp.events;
 
+import java.util.Objects;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -14,6 +16,7 @@ public abstract class PlayerAutoListener extends AutoListener
     public PlayerAutoListener(Player player, Plugin plugin)
     {
         super(plugin);
+        Objects.requireNonNull(player);
         this.player = player;
     }
     
