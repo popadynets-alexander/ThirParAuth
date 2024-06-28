@@ -20,7 +20,7 @@ import org.bukkit.plugin.Plugin;
 
 import com.likeitsmp.console.Console;
 import com.likeitsmp.events.PlayerAutoListener;
-import com.likeitsmp.thirparauth.data_stashes.PlayerDataSubstitution;
+import com.likeitsmp.thirparauth.data.PlayerDataSubstitution;
 
 public abstract class TextInputProcess extends PlayerAutoListener
 {
@@ -30,8 +30,8 @@ public abstract class TextInputProcess extends PlayerAutoListener
     public TextInputProcess(Player player, Plugin plugin)
     {
         super(player, plugin);
-        _playerDataSubstitution = new InnerPlayerDataSubstitution(player, plugin);
-        _playerRestriction = new PlayerInputBindAndChatRestrictions(player, plugin);
+        _playerDataSubstitution = new TextInputDataSubstitution(player, plugin);
+        _playerRestriction = new PlayerTextInputBindAndChatRestrictions(player, plugin);
     }
 
     protected abstract void onSubmittedTextInput(PlayerEditBookEvent event);
@@ -40,7 +40,7 @@ public abstract class TextInputProcess extends PlayerAutoListener
     protected final void onStop()
     {
         _playerRestriction.stop();
-        _playerDataSubstitution.stop();
+        _playerDataSubstitution.revert();
     }
 
     protected Location lobbyLocation()
@@ -58,10 +58,10 @@ public abstract class TextInputProcess extends PlayerAutoListener
             "And then hit \"Done\" to submit your text"
         ));
     }
-
-    private final class InnerPlayerDataSubstitution extends PlayerDataSubstitution
+    
+    private final class TextInputDataSubstitution extends PlayerDataSubstitution
     {
-        private InnerPlayerDataSubstitution(Player player, Plugin plugin)
+        public TextInputDataSubstitution(Player player, Plugin plugin)
         {
             super(player, plugin);
         }
@@ -69,14 +69,15 @@ public abstract class TextInputProcess extends PlayerAutoListener
         @Override
         protected void substituteInventory()
         {
+            super.substituteInventory();
+            
             ItemStack inputField = new ItemStack(Material.WRITABLE_BOOK);
 
             BookMeta book = (BookMeta)inputField.getItemMeta();
             setupInputField(book);
             inputField.setItemMeta(book);
 
-            super.substituteInventory();
-            player.getInventory().setItemInMainHand(inputField);
+            player.getInventory().addItem(inputField);
         }
 
         @Override
@@ -94,7 +95,8 @@ public abstract class TextInputProcess extends PlayerAutoListener
         @Override
         protected void substituteAllowFlight()
         {
-            player.setAllowFlight(true);
+            final boolean DO_NOT_KICK_PLAYER_FOR_LEVITATING = true;
+            player.setAllowFlight(DO_NOT_KICK_PLAYER_FOR_LEVITATING);
         }
 
         @Override
@@ -102,13 +104,19 @@ public abstract class TextInputProcess extends PlayerAutoListener
         {
             player.setInvulnerable(true);
         }
+
+        @Override
+        protected void substituteIsInvisible()
+        {
+            player.setInvisible(true);
+        }
     }
 
-    private final class PlayerInputBindAndChatRestrictions extends PlayerRestrictionProcess
+    private final class PlayerTextInputBindAndChatRestrictions extends PlayerRestrictionProcess
     {
         private final List<AsyncPlayerChatEvent> _chatRecording;
 
-        public PlayerInputBindAndChatRestrictions(Player player, Plugin plugin)
+        public PlayerTextInputBindAndChatRestrictions(Player player, Plugin plugin)
         {
             super(player, plugin);
             _chatRecording = new LinkedList<>();
@@ -146,12 +154,13 @@ public abstract class TextInputProcess extends PlayerAutoListener
             }
 
             if (event.getAction() != Action.LEFT_CLICK_AIR ||
+                event.getItem() == null ||
                 event.getItem().getType() == Material.WRITABLE_BOOK)
             {
                 event.setCancelled(true);
             }
         }
-    
+
         @Override
         @EventHandler(priority = EventPriority.HIGHEST)
         protected void handle(PlayerEditBookEvent event)
@@ -162,7 +171,7 @@ public abstract class TextInputProcess extends PlayerAutoListener
                 onSubmittedTextInput(event);
             }
         }
-    
+
         @Override
         protected void onStop()
         {
