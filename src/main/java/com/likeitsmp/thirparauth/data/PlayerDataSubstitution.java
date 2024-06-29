@@ -318,12 +318,12 @@ public class PlayerDataSubstitution
             this::substituteExpCooldown,
             this::substituteTotalExperience,
             
-            this::substituteRemainingAir,
             this::substituteMaximumAir,
+            this::substituteRemainingAir,
 
             this::substituteNoActionTicks,
-            this::substituteNoDamageTicks,
             this::substituteMaximumNoDamageTicks,
+            this::substituteNoDamageTicks,
             this::substitutePortalCooldown,
             this::substituteSaturatedRegenRate,
             this::substituteStarvationRate,
@@ -516,7 +516,7 @@ public class PlayerDataSubstitution
 
     protected void substituteRemainingAir()
     {
-        player.setRemainingAir(0);
+        player.setRemainingAir(DEFAULT_MAXIMUM_AIR);
     }
 
     protected void substituteSaturatedRegenRate()
